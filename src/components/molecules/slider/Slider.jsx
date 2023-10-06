@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Slider.scss";
 
 const Slider = ({ images }) => {
@@ -15,11 +15,26 @@ const Slider = ({ images }) => {
     );
   };
 
+  useEffect(() => {
+    const autoChangeImages = () => {
+      nextSlide();
+    };
+  
+    const interval = setInterval(autoChangeImages, 5000);
+  
+    return () => {
+      clearInterval(interval);
+    };
+  });
+
   return (
     <div className="image-slider">
-      <button onClick={prevSlide}>&#8249;</button>
-      <img src={images[currentImageIndex]} alt="Slider" />
-      <button onClick={nextSlide}>&#8250;</button>
+      <div className="image-slider__container">
+        <button onClick={prevSlide}>&#8249;</button>
+        <img src={images[currentImageIndex]} alt="Slider" />
+        <button onClick={nextSlide}>&#8250;</button>
+      </div>
+      <p>{currentImageIndex + 1}/{ images.length }</p>
     </div>
   );
 };
